@@ -1,9 +1,3 @@
-//
-//  ViewController.swift
-//  Understanding Publishers and Subscribers
-//
-//  Created by Pat on 2023/03/17.
-//
 
 import UIKit
 
@@ -11,7 +5,27 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+            
+        let notification = Notification.Name("MyPublisherNotification")
         
+        let publisher = NotificationCenter.default.publisher(for: notification,object: nil)
+        
+        ///The `sink` function means that you want to subscribe to that specific publisher
+        ///this does return a sub
+        ///Needs to be before the post other wise nothing gets fired off
+        let subscription = publisher.sink { _ in
+            print("Notification recieved from sink")
+        }
+        
+        NotificationCenter.default.post(name: notification, object: nil)
+        
+     
+    }
+}
+
+extension ViewController{
+    func usingImperativeProgramming(){
+        //MARK: - Imperative programming
         let notification = Notification.Name("MyNotification")
         let center = NotificationCenter.default
         
@@ -25,9 +39,6 @@ class ViewController: UIViewController {
         /// once you call a notificaiton you want to remove it once you're done
         
         center.removeObserver(observer)
-        
     }
-
-
 }
 
